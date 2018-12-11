@@ -152,7 +152,7 @@ namespace cpl
             rowString = "";
 
             if (string.IsNullOrWhiteSpace(soureCode))
-                return result + "Waiting for your code...!!!";
+                return result + "Waiting for your code...";
             string soure = string.Copy(soureCode).ToUpper();
             int index = 0, len = soure.Length;
             while (index < len)
