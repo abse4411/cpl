@@ -12,6 +12,14 @@ namespace cpl
     public class Compiler
     {
         #region Properties
+        private string rowString;
+        public string RowString
+        {
+            get
+            {
+                return rowString;
+            }
+        }
         private Hashtable optable;
         protected Hashtable OpTable
         {
@@ -58,12 +66,15 @@ namespace cpl
             optable.Add("DI", "1100");
             optable.Add("EI", "1101");
             optable.Add("STOP", "1110");
+            optable.Add("NOP", "0000");
 
             rstable = new Hashtable();
             rstable.Add("R0", "00");
             rstable.Add("R1", "01");
             rstable.Add("R2", "10");
             rstable.Add("R3", "11");
+
+            rowString = null;
         }
 
         private bool IsNumer(char ch) => (ch >= '0' && ch <= '9') ? true : false;
@@ -78,7 +89,7 @@ namespace cpl
                 result += 'R';
             else
                 return null;
-            if (index < len && (soure[index] >= '0' || soure[index] <= '3'))
+            if (index < len && (soure[index] >= '0' && soure[index] <= '3'))
             {
                 result += soure[index];
                 index++;
@@ -94,14 +105,23 @@ namespace cpl
             string result = "";
             int len = soure.Length;
 
-            if (index < len && ((soure[index] >= '0' && soure[index] <= '9') || (soure[index] >= 'A' && soure[index] <= 'F')))
+            while (index < len)
             {
-                result += soure[index];
+                if ((soure[index] >= '0' && soure[index] <= '9') || (soure[index] >= 'A' && soure[index] <= 'F'))
+                    result += soure[index];
+                else
+                    if (soure[index] == 'H')
+                {
+                    index++;
+                    return result;
+                }
+                else
+                    return null;
                 index++;
             }
-            else
-                return null;
 
+            if (result.Length > 0 && result[result.Length - 1] != 'H')
+                return null;
             return result;
         }
 
@@ -114,7 +134,7 @@ namespace cpl
             }
             else
                 if (string.Equals(op, "IRET") || string.Equals(op, "DI") || string.Equals(op, "EI") ||
-                string.Equals(op, "STOP"))
+                string.Equals(op, "STOP") || string.Equals(op, "NOP"))
             {
                 return 0;
             }
@@ -124,17 +144,22 @@ namespace cpl
 
         public string Work(string soureCode)
         {
-            string result = "";
+            string result = null;
+            char tmp = '0';
+            int counter = -1, offset = 0;
+            int rdi = 0, rsi = 0;
             string op;
+            rowString = "";
 
             if (string.IsNullOrWhiteSpace(soureCode))
-                return result + "Bad Input!!!";
+                return result + "Waiting for your code...!!!";
             string soure = string.Copy(soureCode).ToUpper();
             int index = 0, len = soure.Length;
             while (index < len)
             {
                 if (IsAlpha(soure[index]))
                 {
+                    counter++;
                     op = "";
                     while (index < len && IsAlpha(soure[index]))
                     {
@@ -146,10 +171,13 @@ namespace cpl
                         result += opStr;
                     else
                         return result + "Cannot find the OP:\"" + op + "\" !!!";
-
                     int opCount = GetOperandsCount(op);
                     if (opCount == 0)
-                        result += "????";
+                    {
+                        result += "XXXX";
+                        continue;
+                    }
+
                     while (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == ';' || soure[index] == '\n'))
                     {
                         if (soure[index] == ';')
@@ -179,6 +207,9 @@ namespace cpl
                             result += orStr;
                         else
                             return result + "Cannot find the first operand of OP\"" + op + "\" !!!";
+
+                        rdi = result.Length - 2;
+
                         while (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == ';' || soure[index] == '\n'))
                         {
                             if (soure[index] == ';')
@@ -195,7 +226,9 @@ namespace cpl
                                 index++;
                             }
                         }
-                        if (index >= len || soure[index++] != '[')
+                        if (index >= len || soure[index++] != ',')
+                            return result + "Cannot find the \" ,\" between two operands !!!";
+                        if ((string.Equals(op, "LD") || string.Equals(op, "ST")) && (index >= len || soure[index++] != '['))
                             return result + "Cannot find the \" [\" before operand !!!";
                         string rs = GetRegr(soure, ref index);
                         if (rs == null)
@@ -207,8 +240,22 @@ namespace cpl
                             result += orStr;
                         else
                             return result + "Cannot find the second operand of OP\"" + op + "\" !!!";
-                        if (index >= len || soure[index++] != ']')
+
+                        rsi = result.Length - 2;
+
+                        if ((string.Equals(op, "LD") || string.Equals(op, "ST")) && (index >= len || soure[index++] != ']'))
                             return result + "Cannot find the \" ]\" after operand !!!";
+                        if (string.Equals(op, "ST"))
+                        {
+                            char[] tmpResult = result.ToCharArray();
+                            tmp = result[rdi];
+                            tmpResult[rdi] = tmpResult[rsi];
+                            tmpResult[rsi] = tmp;
+                            tmp = result[rdi + 1];
+                            tmpResult[rdi + 1] = tmpResult[rsi + 1];
+                            tmpResult[rsi + 1] = tmp;
+                            result = new string(tmpResult);
+                        }
                     }
                     else
                         if (opCount == 1)
@@ -218,15 +265,34 @@ namespace cpl
                             string num = GetOffset(soure, ref index);
                             if (num == null)
                             {
-                                return result + "The  operand of OP\"" + op + "\"must a be hex number!!!";
+                                return result + "The  operand of OP\"" + op + "\"must be a hex number and ends with 'h' or 'H' !!!";
                             }
+
+                            if (Int32.TryParse(num, System.Globalization.NumberStyles.HexNumber, null, out offset))
+                            {
+                                offset = offset - counter - 1;
+                                if (offset < 0)
+                                {
+                                    if (offset < -8)
+                                        return result += "The value of label is out of range .";
+                                    offset += 16;
+                                }
+                                else
+                                {
+                                    if (offset > 7)
+                                        return result += "The value of label is out of range .";
+                                }
+                            }
+                            else
+                                return result + "The  operand of OP\"" + op + "\"must be a hex number and ends with 'h' or 'H' !!!";
+
                             try
                             {
-                                result += hexcode[IsNumer(num[0]) ? num[0] - '0' : num[0] - 'A' + 10];
+                                result += hexcode[offset];
                             }
                             catch
                             {
-                                return result += $"Exception at: hexcode[{num[0]}]";
+                                return result += $"Exception at: hexcode[] , out of boundary !!!";
                             }
                             continue;
                         }
@@ -235,6 +301,8 @@ namespace cpl
                         {
                             result += "XX";
                         }
+                        if (string.Equals(op, "JMP") && (index >= len || soure[index++] != '['))
+                            return result + "Cannot find the \" [\" before operand !!!";
                         string rd = GetRegr(soure, ref index);
                         if (rd == null)
                         {
@@ -249,6 +317,8 @@ namespace cpl
                         {
                             result += "XX";
                         }
+                        if (string.Equals(op, "JMP") && (index >= len || soure[index++] != ']'))
+                            return result + "Cannot find the \" ]\" after operand !!!";
                     }
 
                 }
@@ -256,10 +326,14 @@ namespace cpl
                 {
                     while (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == ';' || soure[index] == '\n'))
                     {
+                        if (soure[index] == '\r')
+                            rowString += string.Format("{0:X2}H\r\n", counter == -1 ? 0 : counter);
                         if (soure[index] == ';')
                         {
                             while (index < len && soure[index] != '\n')
                             {
+                                if (soure[index] == '\r')
+                                    rowString += string.Format("{0:X2}H\r\n", counter == -1 ? 0 : counter);
                                 result += soureCode[index];
                                 index++;
                             }
@@ -276,7 +350,7 @@ namespace cpl
                     break;
                 else
                     if (index < len)
-                    return result + "Bad Input!!!";
+                    return result + "Bad input!!!";
             }
             return result;
         }

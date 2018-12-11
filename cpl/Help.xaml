@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:cpl"
         mc:Ignorable="d"
-        Title="Help" Height="450" Width="800">
-    <Grid>
-        
+        Title="Help" Height="476.4" Width="328.2" MinWidth="340" MinHeight="270" WindowStyle="ToolWindow">
+    <Grid Margin="0,0,3.6,0.2" Background="#FF424242">
+        <ScrollViewer Margin="10,10,0,10" MinWidth="270" MinHeight="270">
+            <TextBlock   TextWrapping="WrapWithOverflow"  MinWidth="305" MinHeight="270" HorizontalAlignment="Left" FontSize="14" Foreground="#FFEEEEEE"><Run FontWeight="Bold" FontSize="20" Text="Command format:"/><LineBreak/><Run Text="op opd1 opd2"/><LineBreak/><Run Text="op opd1"/><LineBreak/><Run Text="op"/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="16" Text="Example:"/><LineBreak/><Run Text="add r1,r2"/><LineBreak/><Run Text="jmp a"/><LineBreak/><Run Text="stop"/><LineBreak/><LineBreak/><Run Text="++++++++++++++++++++++++"/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="20" Text="One-line comments begin with char ';' ."/><LineBreak/><LineBreak/><Run Text="++++++++++++++++++++++++"/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="20" Text="The list of available commands :"/><LineBreak/><Run Text="add rd,rs"/><LineBreak/><Run Text="sub rd,rs"/><LineBreak/><Run Text="and rd,rs"/><LineBreak/><Run Text="inc rd"/><LineBreak/><Run Text="ld rd,[rs]"/><LineBreak/><Run Text="st rs,[rd]"/><LineBreak/><Run Text="jc offset"/><LineBreak/><Run Text="jz offset"/><LineBreak/><Run Text="jmp [rd]"/><LineBreak/><Run Text="out rs"/><LineBreak/><Run Text="iret"/><LineBreak/><Run Text="di"/><LineBreak/><Run Text="ei"/><LineBreak/><Run Text="stop"/><LineBreak/><Run Text="nop"/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="16" Text="PS:"/><LineBreak/><Run FontWeight="Bold" FontSize="16" Text="1. &quot;rd&quot; and &quot;rs&quot; are the one of r0,r1,r2,r3 ."/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="16" Text="2. &quot;offset&quot; must be a hex number ."/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="16" Text="3. All letters can be lowercase letters or capital letters ."/><LineBreak/></TextBlock>
+        </ScrollViewer>
+
+
     </Grid>
 </Window>

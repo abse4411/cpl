@@ -5,35 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:cpl"
         mc:Ignorable="d"
-        Title="Assembler Instruction Interpreter of CET-8" Height="560" Width="800" MinWidth="600" MinHeight="500" >
-    
-    <Grid Margin="0,0,0,0.4" >
+        Icon="logo.ico" Title="Assembly Instruction Interpreter of TEC-8" Height="541.4" Width="860" MinWidth="600" MinHeight="500" >
+
+    <Grid Margin="0,0,0,0" Background="Black" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="36"/>
-            <RowDefinition Height="400*"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="46"/>
+            <RowDefinition Height="391*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="359*"/>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="365*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="234*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="369*"/>
+            <ColumnDefinition Width="21*"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="513" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6">
-            <MenuItem Header="Help" />
-            <MenuItem Header="About" />
+        <Menu Height="19" HorizontalAlignment="Stretch" Name="menu1" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Background="#FF282828" Foreground="White"  Grid.RowSpan="2" Margin="0,0,0,0">
+            <MenuItem Header="Help" Click="MenuItem_Click"/>
+            <MenuItem Header="About" Click="MenuItem_Click_1" />
         </Menu>
 
-        <TextBox x:Name="soureCodeTb" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="" TextChanged="SoureCodeTb_TextChanged" FontSize="20"  Grid.Column="2" Grid.Row="2" BorderBrush="#FF00CB02" Foreground="#FF00CB02" Padding="0" BorderThickness="2"/>
-        <TextBox x:Name="resultTb" IsReadOnly="True" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="Waiting for you code..." FontSize="20" Foreground="#FF007AFF"  Grid.Column="4" Grid.Row="2" BorderBrush="#FF038BF9" BorderThickness="2" SelectionBrush="#FF1620F3" />
-         <Button Click="Button_Click" x:Name="cplBtn" Content="Clear input code" HorizontalAlignment="Stretch" Height="35." VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="4" FontSize="24" Grid.IsSharedSizeScope="True" Background="#FFE44D4D"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Height="36" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="358.908" FontSize="32"><Run Text="S"/><Run Text="ource "/><Run Text="C"/><Run Text="ode"/></TextBlock>
-        <TextBlock Grid.Column="4" HorizontalAlignment="Left" Height="36" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="364.906" FontSize="32" Text="Target Code"/>
+        <ScrollViewer x:Name="scroView1" ScrollChanged="ScroView1_ScrollChanged" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="2">
+            <TextBox x:Name="soureCodeTb" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="" TextChanged="SoureCodeTb_TextChanged" FontSize="20"  Grid.Column="2" Grid.Row="2" BorderBrush="#FF00CB02" Foreground="#FF00CB02" Padding="0" BorderThickness="0,2,2,2" Grid.ColumnSpan="2" Margin="46,0,0,0" Background="#FF282828"/>
+        </ScrollViewer>
+        <ScrollViewer x:Name="scroView4" ScrollChanged="ScroView4_ScrollChanged"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="5">
+            <TextBox x:Name="resultTb" IsReadOnly="True" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="Waiting for your code..." FontSize="20" Foreground="#FF007AFF"  Grid.Column="4" Grid.Row="2" BorderBrush="#FF038BF9" BorderThickness="0,2,2,2"  Margin="46,0,0,0" Background="#FF282828" />
+        </ScrollViewer>
+        <Button Click="Button_Click"  x:Name="cplBtn" Content="Lock input code" HorizontalAlignment="Stretch" Height="40" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="5" Grid.Column="1" Grid.Row="4" FontSize="24"  Background="#FF464646" Foreground="#FFFF9C00">
+        </Button>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" TextWrapping="Wrap" VerticalAlignment="Top" Width="359" FontSize="32" Margin="0.6,0.4,0,0" Grid.RowSpan="2" Grid.ColumnSpan="3" Grid.Row="1" Foreground="White"><Run Text="S"/><Run Text="ource "/><Run Text="C"/><Run Text="ode"/></TextBlock>
+        <TextBlock Grid.Column="5" HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" VerticalAlignment="Top" Width="365" FontSize="32" Text="Target Code"   Grid.ColumnSpan="2" Grid.Row="1" Foreground="White"/>
+        <ScrollViewer  x:Name="scroView2" ScrollChanged="ScroView2_ScrollChanged"  HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="46" VerticalScrollBarVisibility="Hidden"  Grid.Row="2" Grid.Column="2" >
+            <TextBox x:Name="rowBox" IsReadOnly="True" TextWrapping="NoWrap"  Grid.Column="2" HorizontalAlignment="Left"   Grid.Row="2"  BorderBrush="#FF00CB02" Foreground="#FF038BF9" Padding="0" BorderThickness="2,2,0,2" Text="" VerticalAlignment="Stretch" Width="46" FontSize="20"  Margin="0" Grid.ColumnSpan="2" Background="#FF282828"/>
+        </ScrollViewer>
+        <ScrollViewer  x:Name="scroView3"  ScrollChanged="ScroView3_ScrollChanged" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="46" VerticalScrollBarVisibility="Hidden"  Grid.Row="2" Grid.Column="5" >
+            <TextBox x:Name="rowBox1" IsReadOnly="True" TextWrapping="NoWrap"  Grid.Column="5" HorizontalAlignment="Left"   Grid.Row="2" BorderBrush="#FF007AFF" Foreground="#FF00CB02" Padding="0" BorderThickness="2,2,0,2" Text="{Binding ElementName=rowBox,Path=Text}" VerticalAlignment="Stretch" Width="46" FontSize="20" Margin="0" Grid.ColumnSpan="2" Background="#FF282828" />
+        </ScrollViewer>
+        
     </Grid>
 </Window>

@@ -7,12 +7,12 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("cpl")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AII of CTE-8")]
+[assembly: AssemblyDescription("Assembler Instruction Interpreter of CET-8")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("cpl")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("XueFeng")]
+[assembly: AssemblyProduct("AII of CTE-8")]
+[assembly: AssemblyCopyright("Copyright ©  2018 Xuefeng")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

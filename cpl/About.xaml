@@ -1,0 +1,18 @@
+﻿<Window x:Class="cpl.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:cpl"
+        mc:Ignorable="d"
+        Title="About" Height="320" Width="503.2" ResizeMode="NoResize" WindowStyle="ToolWindow">
+    <Grid Background="#FF292929" >
+        <TextBlock TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,25,-0.2,0" Height="115" FontSize="18" Foreground="#FFEEEEEE"><Run Text="Assembly Instruction Interpreter of T"/><Run Text="EC"/><Run Text="-8"/><LineBreak/><Run Text="V1.0"/><Run Text=".0."/><Run Text="1"/><LineBreak/><Run Text="Released"/><LineBreak/><Run/><LineBreak/><Run Text="C"/><Run Text="ontact us"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="0,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="487" FontSize="18" FontWeight="Bold">
+            <Hyperlink NavigateUri="shen_zhifeng@outlook.com" Click="Hyperlink_Click" TextDecorations="{x:Null}"
+            >shen_zhifeng@outlook.com</Hyperlink>
+        </TextBlock>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Height="26" Margin="0,255,-0.2,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="497" Foreground="#FFDDDDDD"><Run Text="Copyright© "/><Run Text="2018"/><Run Text="-"/><Run Text="2018"/><Run Text=" XueFeng"/></TextBlock>
+
+    </Grid>
+</Window>
