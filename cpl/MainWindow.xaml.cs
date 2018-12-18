@@ -31,17 +31,33 @@ namespace cpl
                 Radius = 10
             };
             InitializeComponent();
+            this.Unloaded += MainWindow_Unloaded;
+        }
+
+        private void MainWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.scroView1.ScrollChanged -= new ScrollChangedEventHandler(ScroView1_ScrollChanged);
+            this.scroView2.ScrollChanged -= new ScrollChangedEventHandler(ScroView2_ScrollChanged);
+            this.scroView3.ScrollChanged -= new ScrollChangedEventHandler(ScroView3_ScrollChanged);
+            this.scroView4.ScrollChanged -= new ScrollChangedEventHandler(ScroView4_ScrollChanged);
+            this.cplBtn.Click -= new RoutedEventHandler(Button_Click);
+            this.soureCodeTb.TextChanged -= new TextChangedEventHandler(SoureCodeTb_TextChanged);
+            this.menuItem1.Click -= new RoutedEventHandler(MenuItem_Click);
+            this.menuItem2.Click -= new RoutedEventHandler(MenuItem_Click_1);
+            this.zh_CN.Click-= new RoutedEventHandler(Lang_Click);
+            this.en_US.Click -= new RoutedEventHandler(Lang_Click);
+            e.Handled = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if(this.soureCodeTb.IsReadOnly)
             {
-                this.cplBtn.Content = "Lock input code";
+                this.cplBtn.Content = International.GetString("LIC");
             }
             else
             {
-                this.cplBtn.Content = "Unlock input code";
+                this.cplBtn.Content = International.GetString("UIC");
             }
             this.soureCodeTb.IsReadOnly = !this.soureCodeTb.IsReadOnly;
         }
@@ -56,7 +72,7 @@ namespace cpl
                 this.resultTb.IsEnabled = false;
 
                 this.resultTb.Text = cpl.Work(this.soureCodeTb.Text);
-                this.rowBox.Text = cpl.RowString;
+                this.rowBox.Text = cpl.RowString.ToString();
 
                 this.cplBtn.IsEnabled = true;
                 this.soureCodeTb.IsEnabled = true;
@@ -73,6 +89,7 @@ namespace cpl
             win.Owner = this;
             win.ShowDialog();
             this.Effect = null;
+            e.Handled = true;
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
@@ -84,6 +101,7 @@ namespace cpl
             win.ShowDialog();
             win = null;
             this.Effect = null;
+            e.Handled = true;
         }
 
         private void ScroView1_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -91,6 +109,7 @@ namespace cpl
             this.scroView2.ScrollToVerticalOffset(this.scroView1.VerticalOffset);
             this.scroView3.ScrollToVerticalOffset(this.scroView1.VerticalOffset);
             this.scroView4.ScrollToVerticalOffset(this.scroView1.VerticalOffset);
+            e.Handled = true;
         }
 
         private void ScroView3_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -98,6 +117,7 @@ namespace cpl
             this.scroView2.ScrollToVerticalOffset(this.scroView3.VerticalOffset);
             this.scroView1.ScrollToVerticalOffset(this.scroView3.VerticalOffset);
             this.scroView4.ScrollToVerticalOffset(this.scroView3.VerticalOffset);
+            e.Handled = true;
         }
 
         private void ScroView2_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -105,6 +125,7 @@ namespace cpl
             this.scroView1.ScrollToVerticalOffset(this.scroView2.VerticalOffset);
             this.scroView3.ScrollToVerticalOffset(this.scroView2.VerticalOffset);
             this.scroView4.ScrollToVerticalOffset(this.scroView2.VerticalOffset);
+            e.Handled = true;
         }
 
         private void ScroView4_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -112,6 +133,15 @@ namespace cpl
             this.scroView2.ScrollToVerticalOffset(this.scroView4.VerticalOffset);
             this.scroView3.ScrollToVerticalOffset(this.scroView4.VerticalOffset);
             this.scroView1.ScrollToVerticalOffset(this.scroView4.VerticalOffset);
+            e.Handled = true;
+        }
+
+        private void Lang_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            if (item != null)
+                International.SetCurrentLanguage(item.Name.Replace('_','-'));
+            e.Handled = true;
         }
     }
 }

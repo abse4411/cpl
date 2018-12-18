@@ -23,6 +23,13 @@ namespace cpl
         public About()
         {
             InitializeComponent();
+            this.Unloaded += About_Unloaded;
+        }
+
+        private void About_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.hLink.Click -= new RoutedEventHandler(Hyperlink_Click);
+            e.Handled = true;
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -32,7 +39,7 @@ namespace cpl
             {
                 try
                 {
-                    Process.Start("mailto:" + link.NavigateUri.ToString() + "?subject=Feedback for AII of CET-8&body=");
+                    Process.Start("mailto:" + link.NavigateUri.ToString() + "?subject=Feedback for AII of TEC-8&body=");
                 }
                 catch(Exception ex)
                 {
@@ -43,5 +50,6 @@ namespace cpl
             }
             e.Handled = true;
         }
+
     }
 }

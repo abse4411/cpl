@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:cpl.Resources"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="SoureCode">Soure Code</system:String>
+    <system:String x:Key="TargetCode">Target Code</system:String>
+    <system:String x:Key="Help">Help</system:String>
+    <system:String x:Key="About">About</system:String>
+    <system:String x:Key="Language">Language</system:String>
+    <system:String x:Key="English">English(Current)</system:String>
+    <system:String x:Key="Chinese">中文</system:String>
+    <system:String x:Key="WFYC">Waiting for your code...</system:String>
+    <system:String x:Key="LIC">Lock input code</system:String>
+    <system:String x:Key="UIC">Unlock input code</system:String>
+    <system:String x:Key="CFTOP">Cannot find the OP</system:String>
+    <system:String x:Key="CFTFO">Cannot find the first operand of OP</system:String>
+    <system:String x:Key="CFTSO">Cannot find the second operand of OP</system:String>
+    <system:String x:Key="CFTDO">Cannot find the " , " between two operands</system:String>
+    <system:String x:Key="CFTLO">Cannot find the " [ " after operand</system:String>
+    <system:String x:Key="CFTRO">Cannot find the " ] " after operand</system:String>
+    <system:String x:Key="TOOP">The  operand of OP</system:String>
+    <system:String x:Key="TVLIUR">The value of label is out of range</system:String>
+    <system:String x:Key="MBAHN">must be a hex number and ends with 'h' or 'H'</system:String>
+    <system:String x:Key="BI">Bad input</system:String>
+    <system:String x:Key="AppName">Assembly Instruction Interpreter of TEC-8</system:String>
+    <system:String x:Key="Released">Released</system:String>
+    <system:String x:Key="ContactUs">ContractUs</system:String>
+    <system:String x:Key="CF">Command Format</system:String>
+    <system:String x:Key="Example">Example</system:String>
+    <system:String x:Key="OLC">One-line comments begin with char ';'</system:String>
+    <system:String x:Key="TLAC">The list of available commands</system:String>
+    <system:String x:Key="PS">PS</system:String>
+    <system:String x:Key="P1">"rd" and "rs" are the one of r0,r1,r2,r3</system:String>
+    <system:String x:Key="P2">"label" must be a hex number and ends with 'h' or 'H' . Label is the address to which jz/jc jumps</system:String>
+    <system:String x:Key="P3">All letters can be lowercase letters or capital letters</system:String>
+</ResourceDictionary>

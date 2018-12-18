@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Collections;
 
 namespace cpl
@@ -12,8 +11,16 @@ namespace cpl
     public class Compiler
     {
         #region Properties
-        private string rowString;
-        public string RowString
+        private StringBuilder result;
+        public StringBuilder Result
+        {
+            get
+            {
+                return result;
+            }
+        }
+        private StringBuilder rowString;
+        public StringBuilder RowString
         {
             get
             {
@@ -51,6 +58,8 @@ namespace cpl
                                                                     "1100", "1101", "1110", "1111" };
         public Compiler()
         {
+            result = new StringBuilder(100);
+            rowString = new StringBuilder(10);
             optable = new Hashtable();
             optable.Add("ADD", "0001");
             optable.Add("SUB", "0010");
@@ -73,8 +82,6 @@ namespace cpl
             rstable.Add("R1", "01");
             rstable.Add("R2", "10");
             rstable.Add("R3", "11");
-
-            rowString = null;
         }
 
         private bool IsNumer(char ch) => (ch >= '0' && ch <= '9') ? true : false;
@@ -144,15 +151,14 @@ namespace cpl
 
         public string Work(string soureCode)
         {
-            string result = null;
-            char tmp = '0';
+            result.Clear();
+            rowString.Clear();
             int counter = -1, offset = 0;
             int rdi = 0, rsi = 0;
-            string op;
-            rowString = "";
+            StringBuilder op = new StringBuilder(10);
 
             if (string.IsNullOrWhiteSpace(soureCode))
-                return result + "Waiting for your code...";
+                return result.Append(International.GetString("WFYC")).ToString();
             string soure = string.Copy(soureCode).ToUpper();
             int index = 0, len = soure.Length;
             while (index < len)
@@ -160,21 +166,21 @@ namespace cpl
                 if (IsAlpha(soure[index]))
                 {
                     counter++;
-                    op = "";
+                    op.Clear();
                     while (index < len && IsAlpha(soure[index]))
                     {
-                        op += soure[index];
+                        op.Append(soure[index]);
                         index++;
                     }
-                    string opStr = (string)optable[op];
+                    string opStr = (string)optable[op.ToString()];
                     if (opStr != null)
-                        result += opStr;
+                        result.Append(opStr);
                     else
-                        return result + "Cannot find the OP:\"" + op + "\" !!!";
-                    int opCount = GetOperandsCount(op);
+                        return result.Append(International.GetString("CFTOP")).Append('"').Append(op).Append("\" !!!").ToString();
+                    int opCount = GetOperandsCount(op.ToString());
                     if (opCount == 0)
                     {
-                        result += "XXXX";
+                        result.Append("XXXX");
                         continue;
                     }
 
@@ -184,13 +190,13 @@ namespace cpl
                         {
                             while (index < len && soure[index] != '\n')
                             {
-                                result += soureCode[index];
+                                result.Append(soureCode[index]);
                                 index++;
                             }
                         }
                         else
                         {
-                            result += soureCode[index];
+                            result.Append(soureCode[index]);
                             index++;
                         }
                     }
@@ -200,13 +206,13 @@ namespace cpl
                         string rd = GetRegr(soure, ref index);
                         if (rd == null)
                         {
-                            return result + "Cannot find the first operand of OP\"" + op + "\" !!!";
+                            return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append( "\" !!!").ToString();
                         }
                         string orStr = (string)rstable[rd];
                         if (orStr != null)
-                            result += orStr;
+                            result.Append(orStr);
                         else
-                            return result + "Cannot find the first operand of OP\"" + op + "\" !!!";
+                            return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append( "\" !!!").ToString();
 
                         rdi = result.Length - 2;
 
@@ -216,56 +222,62 @@ namespace cpl
                             {
                                 while (index < len && soure[index] != '\n')
                                 {
-                                    result += soureCode[index];
+                                    result.Append(soureCode[index]);
                                     index++;
                                 }
                             }
                             else
                             {
-                                result += soureCode[index];
+                                result.Append(soureCode[index]);
                                 index++;
                             }
                         }
                         if (index >= len || soure[index++] != ',')
-                            return result + "Cannot find the \" ,\" between two operands !!!";
-                        if ((string.Equals(op, "LD") || string.Equals(op, "ST")) && (index >= len || soure[index++] != '['))
-                            return result + "Cannot find the \" [\" before operand !!!";
+                            return result.Append(International.GetString("CFTDO")).Append(" !!!").ToString();
+                        if ((string.Equals(op.ToString(), "LD") || string.Equals(op.ToString(), "ST")) && (index >= len || soure[index++] != '['))
+                            return result.Append(International.GetString("CFTLO")).Append(" !!!").ToString();
                         string rs = GetRegr(soure, ref index);
                         if (rs == null)
                         {
-                            return result + "Cannot find the second operand of OP\"" + op + "\" !!!";
+                            return result.Append(International.GetString("CFTSO")).Append('"').Append(op).Append("\" !!!").ToString();
                         }
                         orStr = (string)rstable[rs];
                         if (orStr != null)
-                            result += orStr;
+                            result.Append(orStr);
                         else
-                            return result + "Cannot find the second operand of OP\"" + op + "\" !!!";
+                            return result.Append(International.GetString("CFTSO")).Append('"').Append(op).Append("\" !!!").ToString();
 
                         rsi = result.Length - 2;
 
-                        if ((string.Equals(op, "LD") || string.Equals(op, "ST")) && (index >= len || soure[index++] != ']'))
-                            return result + "Cannot find the \" ]\" after operand !!!";
-                        if (string.Equals(op, "ST"))
+                        if ((string.Equals(op.ToString(), "LD") || string.Equals(op.ToString(), "ST")) && (index >= len || soure[index++] != ']'))
+                            return result.Append(International.GetString("CFTRO")).Append(" !!!").ToString();
+                        if (string.Equals(op.ToString(), "ST"))
                         {
-                            char[] tmpResult = result.ToCharArray();
-                            tmp = result[rdi];
-                            tmpResult[rdi] = tmpResult[rsi];
-                            tmpResult[rsi] = tmp;
-                            tmp = result[rdi + 1];
-                            tmpResult[rdi + 1] = tmpResult[rsi + 1];
-                            tmpResult[rsi + 1] = tmp;
-                            result = new string(tmpResult);
+                            char ch0 = result[rdi];
+                            char ch1 = result[rdi + 1];
+                            result[rdi] = result[rsi];
+                            result[rdi + 1] = result[rsi + 1];
+                            result[rsi] = ch0;
+                            result[rsi + 1] = ch1;
+                            //char[] tmpResult = result.ToCharArray();
+                            //tmp = result[rdi];
+                            //tmpResult[rdi] = tmpResult[rsi];
+                            //tmpResult[rsi] = tmp;
+                            //tmp = result[rdi + 1];
+                            //tmpResult[rdi + 1] = tmpResult[rsi + 1];
+                            //tmpResult[rsi + 1] = tmp;
+                            //result = new string(tmpResult);
                         }
                     }
                     else
                         if (opCount == 1)
                     {
-                        if (string.Equals(op, "JC") || string.Equals(op, "JZ"))
+                        if (string.Equals(op.ToString(), "JC") || string.Equals(op.ToString(), "JZ"))
                         {
                             string num = GetOffset(soure, ref index);
                             if (num == null)
                             {
-                                return result + "The  operand of OP\"" + op + "\"must be a hex number and ends with 'h' or 'H' !!!";
+                                return result.Append(International.GetString("TOOP")).Append('"').Append(op).Append('"').Append(International.GetString("MBAHN")).Append(" !!!").ToString();
                             }
 
                             if (Int32.TryParse(num, System.Globalization.NumberStyles.HexNumber, null, out offset))
@@ -274,73 +286,65 @@ namespace cpl
                                 if (offset < 0)
                                 {
                                     if (offset < -8)
-                                        return result += "The value of label is out of range .";
+                                        return result.Append(International.GetString("TVLIUR")).Append(" .").ToString();
                                     offset += 16;
                                 }
                                 else
                                 {
                                     if (offset > 7)
-                                        return result += "The value of label is out of range .";
+                                        return result.Append(International.GetString("TVLIUR")).Append(" .").ToString();
                                 }
                             }
                             else
-                                return result + "The  operand of OP\"" + op + "\"must be a hex number and ends with 'h' or 'H' !!!";
-
-                            try
-                            {
-                                result += hexcode[offset];
-                            }
-                            catch
-                            {
-                                return result += $"Exception at: hexcode[] , out of boundary !!!";
-                            }
+                                return result.Append(International.GetString("TOOP")).Append('"').Append(op).Append('"').Append(International.GetString("MBAHN")).Append(" !!!").ToString();
+                            result.Append(hexcode[offset]);
                             continue;
                         }
                         else
-                            if (string.Equals(op, "OUT"))
+                            if (string.Equals(op.ToString(), "OUT"))
                         {
-                            result += "XX";
+                            result.Append("XX");
                         }
-                        if (string.Equals(op, "JMP") && (index >= len || soure[index++] != '['))
-                            return result + "Cannot find the \" [\" before operand !!!";
+                        if (string.Equals(op.ToString(), "JMP") && (index >= len || soure[index++] != '['))
+                            return result.Append(International.GetString("CFTLO")).Append(" !!!").ToString();
                         string rd = GetRegr(soure, ref index);
                         if (rd == null)
                         {
-                            return result + "Cannot find the first operand of OP\"" + op + "\" !!!";
+                            return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append("\" !!!").ToString();
                         }
                         string orStr = (string)rstable[rd];
                         if (optable != null)
-                            result += orStr;
+                            result.Append(orStr);
                         else
-                            return result + "Cannot find the first operand of OP\"" + op + "\" !!!";
-                        if (string.Equals(op, "INC") || string.Equals(op, "JMP"))
+                            return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append("\" !!!").ToString();
+                        if (string.Equals(op.ToString(), "INC") || string.Equals(op.ToString(), "JMP"))
                         {
-                            result += "XX";
+                            result.Append("XX");
                         }
-                        if (string.Equals(op, "JMP") && (index >= len || soure[index++] != ']'))
-                            return result + "Cannot find the \" ]\" after operand !!!";
+                        if (string.Equals(op.ToString(), "JMP") && (index >= len || soure[index++] != ']'))
+                            return result.Append(International.GetString("CFTRO")).Append(" !!!").ToString();
                     }
 
                 }
-                if (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == ';' || soure[index] == '\n'))
+                if (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == '\t' || soure[index] == ';' || soure[index] == '\n'))
                 {
-                    while (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == ';' || soure[index] == '\n'))
+                    while (index < len && (soure[index] == ' ' || soure[index] == '\r' || soure[index] == '\t' || soure[index] == ';' || soure[index] == '\n'))
                     {
                         if (soure[index] == '\r')
-                            rowString += string.Format("{0:X2}H\r\n", counter == -1 ? 0 : counter);
+                            rowString.AppendFormat("{0:X2}H\r\n", counter == -1 ? 0 : counter);
                         if (soure[index] == ';')
                         {
                             while (index < len && soure[index] != '\n')
                             {
                                 if (soure[index] == '\r')
-                                    rowString += string.Format("{0:X2}H\r\n", counter == -1 ? 0 : counter);
-                                result += soureCode[index];
+                                    rowString.AppendFormat("{0:X2}H\r\n", counter == -1 ? 0 : counter);
+                                result.Append(soureCode[index]);
                                 index++;
                             }
                         }
                         else
                         {
-                            result += soureCode[index];
+                            result.Append(soureCode[index]);
                             index++;
                         }
                     }
@@ -350,9 +354,9 @@ namespace cpl
                     break;
                 else
                     if (index < len)
-                    return result + "Bad input!!!";
+                    return result.Append(International.GetString("BI")).Append(" !!!").ToString();
             }
-            return result;
+            return result.ToString();
         }
 
     }

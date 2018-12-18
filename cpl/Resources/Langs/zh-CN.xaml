@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:cpl.Resources"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="SoureCode">源代码</system:String>
+    <system:String x:Key="TargetCode">目标代码</system:String>
+    <system:String x:Key="Help">帮助</system:String>
+    <system:String x:Key="About">关于</system:String>
+    <system:String x:Key="Language">语言</system:String>
+    <system:String x:Key="English">English</system:String>
+    <system:String x:Key="Chinese">中文(当前)</system:String>
+    <system:String x:Key="WFYC">等待着你的输入...</system:String>
+    <system:String x:Key="LIC">锁定输入代码</system:String>
+    <system:String x:Key="UIC">解锁输入代码</system:String>
+    <system:String x:Key="CFTOP">找不到操作符</system:String>
+    <system:String x:Key="CFTFO">找不到第一个操作数,操作符是</system:String>
+    <system:String x:Key="CFTSO">找不到第二个操作数,操作符是</system:String>
+    <system:String x:Key="CFTDO">找不到位于两个操作数的“ , ”</system:String>
+    <system:String x:Key="CFTLO">找不到位于操作数前面的“ [ ”</system:String>
+    <system:String x:Key="CFTRO">找不到位于操作数后面的“ ] ”</system:String>
+    <system:String x:Key="TOOP">操作数,其操作符为</system:String>
+    <system:String x:Key="TVLIUR">跳转的地址超出跳转范围</system:String>
+    <system:String x:Key="MBAHN">必须是一个十六进制数且以'h' 或者 'H'结尾</system:String>
+    <system:String x:Key="BI">无效输入</system:String>
+    <system:String x:Key="AppName">TEC-8汇编指令直译器</system:String>
+    <system:String x:Key="Released">发布版</system:String>
+    <system:String x:Key="ContactUs">联系我们</system:String>
+    <system:String x:Key="CF">指令格式</system:String>
+    <system:String x:Key="Example">例子</system:String>
+    <system:String x:Key="OLC">单行注释符号为 ';'</system:String>
+    <system:String x:Key="TLAC">可用的指令列表</system:String>
+    <system:String x:Key="PS">注意</system:String>
+    <system:String x:Key="P1">"rd" 和 "rs" 是 r0,r1,r2,r3 的其中之一</system:String>
+    <system:String x:Key="P2">"label" 必须是一个进制数且以 'h' or 'H'结尾 . Label 是 jz/jc 要条跳转的地址</system:String>
+    <system:String x:Key="P3">所有字母可以大写或者小写</system:String>
+</ResourceDictionary>
