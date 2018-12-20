@@ -43,7 +43,7 @@ namespace cpl
             string langType = ConfigurationManager.AppSettings.Get(currlang);
             if(langType==null)
             {
-                MessageBox.Show("Configuration file Lost !!!", "Error");
+                MessageBox.Show("Configuration files Lost !!!", "Error");
                 Application.Current.Shutdown();
                 return;
             }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="{DynamicResource About}" Height="320" Width="503.2" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid  >
-        <TextBlock TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,25,-0.2,0" Height="115" FontSize="18" ><Run Text="{DynamicResource AppName}"/><LineBreak/><Run Text="V1.0"/><Run Text=".0."/><Run Text="2"/><LineBreak/><Run Text="{DynamicResource Released}"/><LineBreak/><Run/><LineBreak/><Run Text="{DynamicResource ContactUs}"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
+        <TextBlock TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,25,-0.2,0" Height="115" FontSize="18" ><Run Text="{DynamicResource AppName}"/><LineBreak/><Run Text="V1.0."/><Run Text="2"/><LineBreak/><Run Text="{DynamicResource Released}"/><LineBreak/><Run/><LineBreak/><Run Text="{DynamicResource ContactUs}"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
         <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="0,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="487" FontSize="18" FontWeight="Bold">
             <Hyperlink x:Name="hLink" NavigateUri="shen_zhifeng@outlook.com" Click="Hyperlink_Click" TextDecorations="{x:Null}"
             >shen_zhifeng@outlook.com</Hyperlink>
