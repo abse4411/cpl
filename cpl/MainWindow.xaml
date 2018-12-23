@@ -36,7 +36,7 @@
         </Menu>
 
         <ScrollViewer x:Name="scroView1" ScrollChanged="ScroView1_ScrollChanged" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="2">
-            <TextBox x:Name="soureCodeTb" AcceptsTab="True" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="" TextChanged="SoureCodeTb_TextChanged" FontSize="20"  Grid.Column="2" Grid.Row="2" BorderBrush="#FF00CB02" Padding="0" BorderThickness="0,2,2,2" Grid.ColumnSpan="2" Margin="46,0,0,0" Background="{x:Null}" Foreground="#FF00CB02"/>
+            <TextBox x:Name="soureCodeTb" AcceptsTab="True" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="" TextChanged="SoureCodeTb_TextChangedAsync" FontSize="20"  Grid.Column="2" Grid.Row="2" BorderBrush="#FF00CB02" Padding="0" BorderThickness="0,2,2,2" Grid.ColumnSpan="2" Margin="46,0,0,0" Background="{x:Null}" Foreground="#FF00CB02"/>
         </ScrollViewer>
         <ScrollViewer x:Name="scroView4" ScrollChanged="ScroView4_ScrollChanged"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="5">
             <TextBox x:Name="resultTb" IsReadOnly="True" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="NoWrap" Text="{DynamicResource WFYC}" FontSize="20" Foreground="#FF007AFF"  Grid.Column="4" Grid.Row="2" BorderBrush="#FF038BF9" BorderThickness="0,2,2,2"  Margin="46,0,0,0" />

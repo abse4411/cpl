@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Effects;
+using System.Threading;
 
 namespace cpl
 {
@@ -41,7 +42,7 @@ namespace cpl
             this.scroView3.ScrollChanged -= new ScrollChangedEventHandler(ScroView3_ScrollChanged);
             this.scroView4.ScrollChanged -= new ScrollChangedEventHandler(ScroView4_ScrollChanged);
             this.cplBtn.Click -= new RoutedEventHandler(Button_Click);
-            this.soureCodeTb.TextChanged -= new TextChangedEventHandler(SoureCodeTb_TextChanged);
+            this.soureCodeTb.TextChanged -= new TextChangedEventHandler(SoureCodeTb_TextChangedAsync);
             this.menuItem1.Click -= new RoutedEventHandler(MenuItem_Click);
             this.menuItem2.Click -= new RoutedEventHandler(MenuItem_Click_1);
             this.zh_CN.Click-= new RoutedEventHandler(Lang_Click);
@@ -62,7 +63,7 @@ namespace cpl
             this.soureCodeTb.IsReadOnly = !this.soureCodeTb.IsReadOnly;
         }
 
-        private void SoureCodeTb_TextChanged(object sender, TextChangedEventArgs e)
+        private async void SoureCodeTb_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             if (this.resultTb != null && this.soureCodeTb != null)
             {
@@ -70,8 +71,8 @@ namespace cpl
                 this.soureCodeTb.IsEnabled = false;
                 this.resultTb.Text = "Compiling ...";
                 this.resultTb.IsEnabled = false;
-
-                this.resultTb.Text = cpl.Work(this.soureCodeTb.Text);
+                
+                this.resultTb.Text = await cpl.WorkAsync(soureCodeTb.Text);
                 this.rowBox.Text = cpl.RowString.ToString();
 
                 this.cplBtn.IsEnabled = true;

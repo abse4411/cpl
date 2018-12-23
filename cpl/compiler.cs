@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Threading;
 
 namespace cpl
 {
@@ -359,5 +360,11 @@ namespace cpl
             return result.ToString();
         }
 
+        public Task<string> WorkAsync(string soureCode)
+        {
+            var task = new Task<string>(()=>Work(soureCode));
+            task.Start();
+            return task;
+        }
     }
 }
