@@ -31,6 +31,7 @@
     <system:String x:Key="TLAC">可用的指令列表</system:String>
     <system:String x:Key="PS">注意</system:String>
     <system:String x:Key="P1">"rd" 和 "rs" 是 r0,r1,r2,r3 的其中之一</system:String>
-    <system:String x:Key="P2">"label" 必须是一个进制数且以 'h' or 'H'结尾 . Label 是 jz/jc 要条跳转的地址</system:String>
+    <system:String x:Key="P2">"label" 必须是一个进制数且以 'h' 或 'H'结尾 . Label 是 jz/jc 要条跳转的地址</system:String>
     <system:String x:Key="P3">所有字母可以大写或者小写</system:String>
+    <system:String x:Key="Compiling">编译中</system:String>
 </ResourceDictionary>

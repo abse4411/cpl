@@ -8,7 +8,6 @@ using System.Threading;
 
 namespace cpl
 {
-
     public class Compiler
     {
         #region Properties
@@ -28,32 +27,9 @@ namespace cpl
                 return rowString;
             }
         }
-        private Hashtable optable;
-        protected Hashtable OpTable
-        {
-            private set
-            {
-                optable = value;
-            }
-            get
-            {
-                return optable;
-            }
-        }
-        private Hashtable rstable;
-        protected Hashtable RsTable
-        {
-            private set
-            {
-                rstable = value;
-            }
-            get
-            {
-                return rstable;
-            }
-        }
+        protected Dictionary<string,string> Table { get;  set; }
         #endregion
-        static private string[] hexcode = new string[16]{ "0000", "0001", "0010", "0011",
+        private static string[] hexcode = new string[16]{ "0000", "0001", "0010", "0011",
                                                                     "0100", "0101", "0110", "0111",
                                                                     "1000", "1001", "1010", "1011",
                                                                     "1100", "1101", "1110", "1111" };
@@ -61,32 +37,30 @@ namespace cpl
         {
             result = new StringBuilder(100);
             rowString = new StringBuilder(10);
-            optable = new Hashtable();
-            optable.Add("ADD", "0001");
-            optable.Add("SUB", "0010");
-            optable.Add("AND", "0011");
-            optable.Add("INC", "0100");
-            optable.Add("LD", "0101");
-            optable.Add("ST", "0110");
-            optable.Add("JC", "0111");
-            optable.Add("JZ", "1000");
-            optable.Add("JMP", "1001");
-            optable.Add("OUT", "1010");
-            optable.Add("IRET", "1011");
-            optable.Add("DI", "1100");
-            optable.Add("EI", "1101");
-            optable.Add("STOP", "1110");
-            optable.Add("NOP", "0000");
-
-            rstable = new Hashtable();
-            rstable.Add("R0", "00");
-            rstable.Add("R1", "01");
-            rstable.Add("R2", "10");
-            rstable.Add("R3", "11");
+            Table = new Dictionary<string, string>();
+            Table.Add("ADD", "0001");
+            Table.Add("SUB", "0010");
+            Table.Add("AND", "0011");
+            Table.Add("INC", "0100");
+            Table.Add("LD", "0101");
+            Table.Add("ST", "0110");
+            Table.Add("JC", "0111");
+            Table.Add("JZ", "1000");
+            Table.Add("JMP", "1001");
+            Table.Add("OUT", "1010");
+            Table.Add("IRET", "1011");
+            Table.Add("DI", "1100");
+            Table.Add("EI", "1101");
+            Table.Add("STOP", "1110");
+            Table.Add("NOP", "0000");
+            Table.Add("R0", "00");
+            Table.Add("R1", "01");
+            Table.Add("R2", "10");
+            Table.Add("R3", "11");
         }
 
-        private bool IsNumer(char ch) => (ch >= '0' && ch <= '9') ? true : false;
-        private bool IsAlpha(char ch) => (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') ? true : false;
+        protected bool IsNumer(char ch) => (ch >= '0' && ch <= '9') ? true : false;
+        protected bool IsAlpha(char ch) => (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') ? true : false;
 
         virtual protected string GetRegr(string soure, ref int index)
         {
@@ -150,7 +124,7 @@ namespace cpl
                 return 2;
         }
 
-        public string Work(string soureCode)
+        virtual public string Work(string soureCode)
         {
             result.Clear();
             rowString.Clear();
@@ -173,7 +147,7 @@ namespace cpl
                         op.Append(soure[index]);
                         index++;
                     }
-                    string opStr = (string)optable[op.ToString()];
+                    string opStr = Table.ContainsKey(op.ToString())?Table[op.ToString()]:null;
                     if (opStr != null)
                         result.Append(opStr);
                     else
@@ -209,7 +183,7 @@ namespace cpl
                         {
                             return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append( "\" !!!").ToString();
                         }
-                        string orStr = (string)rstable[rd];
+                        string orStr = Table.ContainsKey(rd) ? Table[rd] : null;
                         if (orStr != null)
                             result.Append(orStr);
                         else
@@ -242,7 +216,7 @@ namespace cpl
                         {
                             return result.Append(International.GetString("CFTSO")).Append('"').Append(op).Append("\" !!!").ToString();
                         }
-                        orStr = (string)rstable[rs];
+                        orStr = Table.ContainsKey(rs) ? Table[rs] : null;
                         if (orStr != null)
                             result.Append(orStr);
                         else
@@ -313,8 +287,8 @@ namespace cpl
                         {
                             return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append("\" !!!").ToString();
                         }
-                        string orStr = (string)rstable[rd];
-                        if (optable != null)
+                        string orStr = Table.ContainsKey(rd) ? Table[rd] : null;
+                        if (Table != null)
                             result.Append(orStr);
                         else
                             return result.Append(International.GetString("CFTFO")).Append('"').Append(op).Append("\" !!!").ToString();
@@ -360,7 +334,7 @@ namespace cpl
             return result.ToString();
         }
 
-        public Task<string> WorkAsync(string soureCode)
+        virtual public Task<string> WorkAsync(string soureCode)
         {
             var task = new Task<string>(()=>Work(soureCode));
             task.Start();

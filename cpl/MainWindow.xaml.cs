@@ -69,7 +69,7 @@ namespace cpl
             {
                 this.cplBtn.IsEnabled = false;
                 this.soureCodeTb.IsEnabled = false;
-                this.resultTb.Text = "Compiling ...";
+                this.resultTb.Text = International.GetString("Compiling") + " ...";
                 this.resultTb.IsEnabled = false;
                 
                 this.resultTb.Text = await cpl.WorkAsync(soureCodeTb.Text);

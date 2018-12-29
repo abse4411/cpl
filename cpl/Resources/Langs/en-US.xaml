@@ -33,4 +33,5 @@
     <system:String x:Key="P1">"rd" and "rs" are the one of r0,r1,r2,r3</system:String>
     <system:String x:Key="P2">"label" must be a hex number and ends with 'h' or 'H' . Label is the address to which jz/jc jumps</system:String>
     <system:String x:Key="P3">All letters can be lowercase letters or capital letters</system:String>
+    <system:String x:Key="Compiling">Compiling</system:String>
 </ResourceDictionary>
